@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: attribute_card_extension
+Specification-Vendor: Antigravity, ancho
+Specification-Version: 1
+Implementation-Title: AtributeCardExtension
+Implementation-Version: 1.0.1
+Implementation-Vendor: Antigravity, ancho
+Implementation-Timestamp: 2026-07-04T21:58:14+0700
+

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardEngine Docs - Interactive Upgrade Framework</title>
+    <meta name="description" content="Official documentation for CardEngine, a modular card-selection player upgrade framework for Minecraft Forge.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Glow effects background -->
+    <div class="glow-bg-container" aria-hidden="true">
+        <div class="glow-circle glow-blue"></div>
+        <div class="glow-circle glow-purple"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <div class="logo-icon" aria-hidden="true">🃏</div>
+                <span class="logo-text">Card<span>Engine</span></span>
+            </div>
+            <nav class="navigation-bar">
+                <button class="nav-tab-btn active" data-tab="tab-intro" id="btn-tab-intro">Introduction</button>
+                <button class="nav-tab-btn" data-tab="tab-user" id="btn-tab-user">User Docs</button>
+                <button class="nav-tab-btn" data-tab="tab-agent" id="btn-tab-agent">Agent Docs</button>
+                <button class="nav-tab-btn" data-tab="tab-contact" id="btn-tab-contact">Contact & FAQ</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+        <!-- TAB 1: INTRODUCTION -->
+        <section class="content-tab-section active" id="tab-intro">
+            <div class="intro-grid">
+                <div class="intro-text-column">
+                    <h1 class="main-heading">Craft Dynamic Upgrades in Minecraft</h1>
+                    <p class="paragraph-lead">
+                        CardEngine is a premium developer-friendly library that implements an interactive card-selection upgrade system. Players level up through custom actions or vanilla XP and choose from randomly fanned-out upgrade cards to obtain permanent stats or special skills.
+                    </p>
+                    <div class="key-features-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✨</span>
+                            <div>
+                                <h3>Data-Driven Cards</h3>
+                                <p>Generate upgrade cards dynamically in Java or customize them via auto-generated JSON files.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <div>
+                                <h3>Scrollable Stats Screen</h3>
+                                <p>Aggregates stat values and displays them on a clean, scrollable 2-column list overlay (L-key).</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <div>
+                                <h3>Smooth Animations</h3>
+                                <p>Fade-in select transitions and reactive, prediction-backed button mechanics ensure no lag.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Playground Column -->
+                <div class="intro-demo-column">
+                    <div class="playground-card glass-panel">
+                        <div class="playground-header">
+                            <span class="badge">Live Playground</span>
+                            <h2>Try drawing upgrades!</h2>
+                        </div>
+                        
+                        <!-- Simulated HUD overlay and stats panel side-by-side -->
+                        <div class="sim-container">
+                            <div class="sim-stats-hud">
+                                <div class="sim-hud-row">
+                                    <span>Engine Level: <strong id="sim-level">1</strong></span>
+                                    <span>Rolls: <strong id="sim-rolls" class="text-gold">3</strong></span>
+                                </div>
+                                <div class="sim-xp-bar-container">
+                                    <div class="sim-xp-bar-fill" id="sim-xp-fill" style="width: 0%;"></div>
+                                </div>
+                                <div class="sim-xp-text" id="sim-xp-text">0 / 50 XP</div>
+                                
+                                <div class="sim-stats-title">Active Upgrade Stats</div>
+                                <div class="sim-stats-grid" id="sim-stats-display">
+                                    <div class="sim-stat-entry" data-stat="max_health">❤️ HP: <span class="text-green">+0</span></div>
+                                    <div class="sim-stat-entry" data-stat="attack_damage">🗡️ AD: <span class="text-green">+0</span></div>
+                                    <div class="sim-stat-entry" data-stat="attack_speed">⚡ AS: <span class="text-green">+0</span></div>
+                                    <div class="sim-stat-entry" data-stat="movement_speed">👟 MS: <span class="text-green">+0</span></div>
+                                    <div class="sim-stat-entry" data-stat="bonus_xp">🧪 XP Boost: <span class="text-green">+0</span></div>
+                                    <div class="sim-stat-entry" data-stat="crit_chance">💥 Crit: <span class="text-green">+0</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Draw Area -->
+                        <div class="playground-action-area">
+                            <button class="primary-btn pulse-btn" id="btn-sim-draw">Simulate XP Gain (+15 XP)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selection Screen Modal Overlay inside Simulation -->
+            <div class="sim-modal-overlay" id="sim-modal">
+                <div class="sim-modal-content glass-panel">
+                    <div class="sim-modal-header">
+                        <h2>Select an Upgrade Card</h2>
+                        <div class="sim-modal-rolls">Remaining Rolls: <span id="sim-modal-rolls-count" class="text-gold">3</span></div>
+                    </div>
+                    <div class="sim-cards-row" id="sim-cards-row">
+                        <!-- Cards dynamically injected by app.js -->
+                    </div>
+                    <div class="sim-modal-footer">
+                        <button class="secondary-btn" id="btn-sim-reroll">Reroll Cards</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DEVELOPER DOCS -->
+        <section class="content-tab-section" id="tab-user">
+            <h2 class="section-title">Developer Integration Guide</h2>
+            <p class="section-intro">Follow this 3-step guide to integrate CardEngine and create your own modular upgrades.</p>
+
+            <div class="step-card glass-panel">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Configure build.gradle</h3>
+                    <p>Add the CardEngine jar file to your project dependencies by configuring a flatDir repository.</p>
+                    <div class="code-wrapper">
+                        <button class="copy-btn" data-target="code-gradle" id="btn-copy-gradle">Copy</button>
+                        <pre><code class="language-groovy" id="code-gradle">repositories {
+    flatDir {
+        dir 'libs'
+    }
+}
+
+dependencies {
+    //fg.deobf is required to remap the jar correctly in your development environment
+    implementation fg.deobf("card_engine:card_engine:1.0.0")
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card glass-panel">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Register Cards & Mechanics</h3>
+                    <p>Inside your mod's initialization phase (<code>FMLCommonSetupEvent</code>), choose one of the options below to register your cards:</p>
+                    
+                    <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--primary); font-size: 1.1rem;">Option A: Quick Create (2 Lines)</h4>
+                    <p>Perfect for simple cards that link directly to vanilla Minecraft Attributes. CardEngine auto-generates JSON configurations and handles UI selection rendering automatically.</p>
+                    <div class="code-wrapper" style="margin-bottom: 1.5rem;">
+                        <button class="copy-btn" data-target="code-register-quick" id="btn-copy-register-quick">Copy</button>
+                        <pre><code class="language-java" id="code-register-quick">// Line 1: Register the mechanism (binds key to vanilla Attribute)
+CardRegistry.registerCard("my_mod:attack_damage", Attributes.ATTACK_DAMAGE);
+
+// Line 2: Register the card (CardEngine handles rendering & JSON generation!)
+CardRegistry.register("my_mod:attack_damage_rare", "my_mod:attack_damage");</code></pre>
+                    </div>
+
+                    <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--secondary); font-size: 1.1rem;">Option B: Custom Mechanism with @CardParam</h4>
+                    <p>For custom logic, create a class implementing <code>CardEngine</code> and declare fields with <code>@CardParam</code>. CardEngine automatically exports these parameters to the card's JSON file.</p>
+                    <div class="code-wrapper">
+                        <button class="copy-btn" data-target="code-register-custom" id="btn-copy-register-custom">Copy</button>
+                        <pre><code class="language-java" id="code-register-custom">// 1. Write your custom class implementing CardEngine
+public class VampirismUpgrade implements CardEngine {
+    @CardParam(10.0) // Exports "heal_ratio" (default 10.0) to JSON config automatically!
+    private double heal_ratio;
+
+    @Override
+    public void apply(ServerPlayer player) {
+        // heal_ratio is automatically injected with the value configured in the JSON file
+        player.heal((float) (player.getMaxHealth() * (heal_ratio / 100.0)));
+    }
+}
+
+// 2. Register both the mechanism class and the card:
+CardRegistry.registerCard("my_mod:vampirism", VampirismUpgrade.class);
+CardRegistry.register("my_mod:vamp_card", "my_mod:vampirism");</code></pre>
+                    </div>
+
+                    <h4 style="margin: 1.5rem 0 0.5rem 0; color: var(--blue); font-size: 1.1rem;">Option C: Active Skills (With Cooldowns)</h4>
+                    <p>Register triggerable active skills with a cooldown (in ticks), and link them to an active card. CardEngine automatically manages hotkey inputs (R and X), slot assignment, HUD indicators, and cooldown overlays.</p>
+                    <div class="code-wrapper">
+                        <button class="copy-btn" data-target="code-register-active" id="btn-copy-register-active">Copy</button>
+                        <pre><code class="language-java" id="code-register-active">// 1. Register the active skill logic & base cooldown (e.g. 100 ticks = 5s)
+CardRegistry.registerActiveSkill("my_mod:dash", 100, (player) -> {
+    Vec3 look = player.getLookAngle();
+    player.setDeltaMovement(look.x * 1.5, 0.2, look.z * 1.5);
+    player.hurtMarked = true; // Sync movement to client
+    
+    // Play sound & spawn particles
+    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), 
+        SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+});
+
+// 2. Link the card to the active skill
+CardRegistry.register("my_mod:dash_card", "my_mod:dash");</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card glass-panel">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Apply Active Upgrades in Forge Events</h3>
+                    <p>Retrieve player stats capability from the event listeners and apply custom gameplay scaling accordingly.</p>
+                    <div class="code-wrapper">
+                        <button class="copy-btn" data-target="code-events" id="btn-copy-events">Copy</button>
+                        <pre><code class="language-java" id="code-events">@SubscribeEvent
+public static void onLivingHurt(LivingHurtEvent event) {
+    if (event.getSource().getEntity() instanceof Player player) {
+        player.getCapability(PlayerUpgradeProvider.PLAYER_UPGRADE).ifPresent(upgrade -> {
+            // Read accumulated stats from the player
+            double critChance = upgrade.getStats().getOrDefault("my_mod:crit_chance", 0.0);
+            if (critChance > 0.0 && player.getRandom().nextFloat() < critChance) {
+                event.setAmount(event.getAmount() * 2.0f); // Deal critical double damage!
+            }
+        });
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: AGENT DOCS -->
+        <section class="content-tab-section" id="tab-agent">
+            <h2 class="section-title">Agent System Prompt Context</h2>
+            <p class="section-intro">Copy and paste this system prompt context directly into your AI coding assistant (like Claude, ChatGPT, Cursor, or GitHub Copilot) to instantly brief it on CardEngine's APIs, structures, and modding rules.</p>
+
+            <div class="code-wrapper" style="margin-bottom: 2rem;">
+                <button class="copy-btn" data-target="code-prompt" id="btn-copy-prompt">Copy Prompt</button>
+                <pre><code class="language-markdown" id="code-prompt">You are writing a Minecraft 1.20.1 Forge mod that integrates with the CardEngine library.
+Follow these API specifications exactly:
+
+1. Package Namespaces:
+- net.com.cardengine.api.registries.CardRegistry
+- net.com.cardengine.api.registries.CardParam
+- net.com.cardengine.api.registries.CardEngine
+- net.com.cardengine.capability.PlayerUpgradeProvider
+
+2. Registering upgrade cards:
+- Quick Register (Binds key to a Minecraft Attribute):
+  CardRegistry.registerCard("modid:stat_key", Attributes.ATTACK_DAMAGE);
+  CardRegistry.register("modid:card_id", "modid:stat_key");
+
+- Custom class-based mechanics:
+  CardRegistry.registerCard("modid:mech_key", YourClass.class);
+  CardRegistry.register("modid:card_id", "modid:mech_key");
+  
+  YourClass must implement CardEngine. Use `@CardParam(double defaultValue)` on fields to export parameters to the JSON config. CardEngine automatically injects configured values back into these fields at runtime.
+
+3. Reading active upgrade stats:
+- Retrieve upgrade stats map:
+  player.getCapability(PlayerUpgradeProvider.PLAYER_UPGRADE).ifPresent(upgrade -> {
+      double value = upgrade.getStats().getOrDefault("modid:stat_key", 0.0);
+  });
+
+4. Critical Modding Caveats:
+- The Mythic rarity tier is spelled "mythic" in all registration files and JSON config properties. (The old typo "mysthic" has been removed in v1.0.1).
+- Sync player levels by listening to `PlayerXpEvent.XpChange` and respect `event.isCanceled()`.</code></pre>
+            </div>
+        </section>
+
+        <!-- TAB 4: CONTACT & FAQ -->
+        <section class="content-tab-section" id="tab-contact">
+            <div class="contact-grid">
+                <!-- FAQs Accordion -->
+                <div class="faq-column">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    
+                    <div class="accordion-item glass-panel">
+                        <button class="accordion-header" id="btn-faq-1">
+                            <span>How do I modify card values post-deployment?</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-body">
+                            <p>Once registered programmatically, CardEngine will automatically output card configurations as JSON files inside <code>config/card_engine/cards/</code>. Server admins can edit these files to modify icons, values, descriptions, and weights without rebuilding the code.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item glass-panel">
+                        <button class="accordion-header" id="btn-faq-2">
+                            <span>Does it support multiplayer and dedicated servers?</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-body">
+                            <p>Yes, all stats and capability variables are tracked and handled entirely on the logical server, and packets are synchronized to clients dynamically to render overlays and indicators on screen accurately.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item glass-panel">
+                        <button class="accordion-header" id="btn-faq-3">
+                            <span>How do I open the card selection screen manually?</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-body">
+                            <p>Admin operators can execute the game command <code>/cardengine draw &lt;player&gt;</code> to trigger a draft screen, or use the developer API <code>upgrade.setPendingDraws(count)</code> followed by <code>upgrade.triggerPendingDraw(player)</code> in code.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="form-column">
+                    <div class="contact-form-panel glass-panel">
+                        <h2>Have Questions or Custom Requests?</h2>
+                        <p>Fill out the form below, and we'll reply with integration tips!</p>
+                        
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="form-name">Name</label>
+                                <input type="text" id="form-name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-email">Email</label>
+                                <input type="email" id="form-email" placeholder="john@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-message">Message</label>
+                                <textarea id="form-message" rows="4" placeholder="How do I write a custom card engine lambda class?" required></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn btn-block" id="btn-form-submit">Send Message</button>
+                        </form>
+                        <div class="form-status-msg" id="form-status-msg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2026 CardEngine Framework. All rights reserved. Created by Antigravity & ancho.</p>
+    </footer>
+
+    <!-- JS Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

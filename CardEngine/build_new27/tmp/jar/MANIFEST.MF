@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: card_engine
+Specification-Vendor: Antigravity
+Specification-Version: 1
+Implementation-Title: CardEngine
+Implementation-Version: 1.0.0
+Implementation-Vendor: Antigravity
+Implementation-Timestamp: 2026-06-28T16:11:55+0700
+
